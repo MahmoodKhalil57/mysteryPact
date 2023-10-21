@@ -3,8 +3,10 @@
 	import Footer from '$lib/components/layout/Footer.svelte';
 </script>
 
-<div>
+<div class="flex flex-col justify-between items-center h-screen w-full">
 	<Header />
-	<slot />
+	<div class="flex items-center justify-center w-full h-full">
+		<slot />
+	</div>
 	<Footer />
 </div>
