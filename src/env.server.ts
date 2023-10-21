@@ -16,7 +16,6 @@ const getEnv = (envKey: string, throwError = false): string => {
 const e = () => {
 	return {
 		DATABASE_URL: () => getEnv('DATABASE_URL', true),
-		DEV_DATABASE_URL: () => getEnv('DEV_DATABASE_URL', true),
 
 		WEBSITE_URL: () => getEnv('WEBSITE_URL', true),
 

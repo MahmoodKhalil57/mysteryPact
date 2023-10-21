@@ -1,15 +1,10 @@
 <script lang="ts">
-	import { apiSend } from '$lib/client/apiClient';
 	import DefaultInput from '$lib/components/form/defaultInput.svelte';
 	import ButtonDefault from '$lib/components/ui/buttonDefault.svelte';
-	import { responseStatus } from '$lib/utils/serverResponse';
 	import { goto } from '$app/navigation';
 
 	const createLobby = async () => {
-		const result = await apiSend().mysteryPotGameRouter.getUnusedMysteryPotGameLobby.GET({}, false);
-		if (result.status === responseStatus.SUCCESS && result.body.data.lobbyId) {
-			goto(`/playGame/lobby/${result.body.data.lobbyId}`);
-		}
+		goto(`/playGame/lobby/createLobby`);
 	};
 
 	const joinLobby = (joinRoomId: string) => {

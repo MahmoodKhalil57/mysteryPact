@@ -1,9 +1,7 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-
-	export let data: PageData;
+	export let data;
 </script>
 
-{data}
+{JSON.stringify(data.data.lobbyInfo.roomId)}
 
 Welcome to lobby

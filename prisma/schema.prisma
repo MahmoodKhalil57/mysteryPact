@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DEV_DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 // vvvvvvvvvvvvvvvvvv luciaAuth
@@ -56,13 +56,14 @@ model AuthUser {
   is_admin     Boolean       @default(false)
 
   // here you can add custom fields for your user
-  username       String          @unique
-  firstName      String
-  lastName       String
-  email          String          @unique
-  profilePicture String
-  AuthToken      AuthToken[]
-  HybridUserData HybridUserData?
+  username         String             @unique
+  firstName        String
+  lastName         String
+  email            String             @unique
+  profilePicture   String
+  AuthToken        AuthToken[]
+  HybridUserData   HybridUserData?
+  MysteryPactLobby MysteryPactLobby[]
 
   @@index([id])
   @@map("auth_user")
@@ -93,4 +94,15 @@ model HybridUserData {
 
   @@index([id])
   @@map("user_data")
+}
+
+model MysteryPactLobby {
+  id String @id @unique @default(uuid())
+
+  name       String
+  maxPlayers Int
+  players    AuthUser[]
+
+  @@index([id])
+  @@map("mystery_pact_lobby")
 }
