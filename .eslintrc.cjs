@@ -8,6 +8,10 @@ module.exports = {
 	],
 	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint'],
+	rules: {
+		'no-unused-vars': false,
+		'@typescript-eslint/no-unused-vars': false
+	},
 	parserOptions: {
 		sourceType: 'module',
 		ecmaVersion: 2020,
