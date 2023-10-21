@@ -29,6 +29,12 @@ const fullPasswordValidation = z
 	.max(16, 'Password must be less than 16 characters long');
 
 export const apiStructure = {
+	mysteryPotGameRouter: {
+		getUnusedMysteryPotGameLobby: {
+			requestType: 'GET',
+			validation: z.object({}) satisfies z.AnyZodObject
+		}
+	},
 	authRouter: {
 		signOut: {
 			requestType: 'POST',
