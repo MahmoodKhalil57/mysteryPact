@@ -49,21 +49,22 @@ model AuthKey {
 // AuthUser model represents a user in the authentication system.
 // It contains fields for user authentication, personal information, and other related data.
 model AuthUser {
-  id           String        @id @unique
-  auth_session AuthSession[]
-  auth_key     AuthKey[]
-  is_verified  Boolean       @default(false)
-  is_admin     Boolean       @default(false)
-
+  id                         String                     @id @unique
+  auth_session               AuthSession[]
+  auth_key                   AuthKey[]
+  is_verified                Boolean                    @default(false)
+  is_admin                   Boolean                    @default(false)
   // here you can add custom fields for your user
-  username         String             @unique
-  firstName        String
-  lastName         String
-  email            String             @unique
-  profilePicture   String
-  AuthToken        AuthToken[]
-  HybridUserData   HybridUserData?
-  MysteryPactLobby MysteryPactLobby[]
+  username                   String                     @unique
+  firstName                  String
+  lastName                   String
+  email                      String                     @unique
+  profilePicture             String
+  AuthToken                  AuthToken[]
+  HybridUserData             HybridUserData?
+  MysteryPactLobby           MysteryPactLobby[]
+  mysteryPactLobbyMessagesId String?
+  MysteryPactLobbyMessages   MysteryPactLobbyMessages[]
 
   @@index([id])
   @@map("auth_user")
@@ -99,10 +100,26 @@ model HybridUserData {
 model MysteryPactLobby {
   id String @id @unique @default(uuid())
 
-  name       String
-  maxPlayers Int
-  players    AuthUser[]
+  name                     String
+  maxPlayers               Int
+  players                  AuthUser[]
+  MysteryPactLobbyMessages MysteryPactLobbyMessages[]
 
   @@index([id])
   @@map("mystery_pact_lobby")
+}
+
+model MysteryPactLobbyMessages {
+  id String @id @unique @default(uuid())
+
+  lobby              MysteryPactLobby @relation(fields: [mysteryPactLobbyId], references: [id])
+  message            String
+  author             AuthUser         @relation(fields: [authUserId], references: [id])
+  authUserId         String
+  mysteryPactLobbyId String
+
+  timeStamp DateTime @default(now())
+
+  @@index([id])
+  @@map("mystery_pact_lobby_messages")
 }

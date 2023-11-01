@@ -28,7 +28,7 @@ export default {
 				return { body: { message: 'Invalid code' }, status: responseStatus.BAD_REQUEST };
 			}
 		}
-		throw redirect(302, '/dashboard');
+		throw redirect(302, '/');
 	},
 	google: async ({ ctx, input }) => {
 		const user = (await ctx.authRequest.validate())?.user;
@@ -74,8 +74,8 @@ export default {
 					attributes: {
 						// attributes
 						username: userNameAvailable ? googleUser.name : nanoid(10),
-						firstName: firstName ?? '',
-						lastName: lastName ?? '',
+						firstName: firstName ?? 'First',
+						lastName: lastName ?? 'Last',
 						email: googleUser.email ?? '',
 						profilePicture: googleUser.picture ?? '',
 						is_verified: true,

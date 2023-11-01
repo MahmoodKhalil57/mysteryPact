@@ -3,10 +3,6 @@
 	import ButtonDefault from '$lib/components/ui/buttonDefault.svelte';
 	import { goto } from '$app/navigation';
 
-	const createLobby = async () => {
-		goto(`/playGame/lobby/createLobby`);
-	};
-
 	const joinLobby = (joinRoomId: string) => {
 		const min = 10 ** 11;
 		const max = 10 ** 12;
@@ -22,7 +18,7 @@
 
 <div class="flex flex-col gap-7">
 	<div>
-		<ButtonDefault onClick={createLobby}>Create Lobby</ButtonDefault>
+		<ButtonDefault url={`/playGame/lobby/createLobby`}>Create Lobby</ButtonDefault>
 	</div>
 	<div>
 		<DefaultInput label="" type={0} placeHolder="" id="" bind:value={joinRoomId} />

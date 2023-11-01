@@ -4,7 +4,6 @@ import type { PageServerLoad } from './$types';
 
 import z from 'zod';
 import { prisma } from '$api/clients/prisma.server';
-import { nanoid } from 'nanoid';
 
 export const load: PageServerLoad = async ({ url, parent }) => {
 	const { hybridCtx } = await parent();
@@ -21,25 +20,35 @@ export const load: PageServerLoad = async ({ url, parent }) => {
 	}
 
 	if (roomId === 'createLobby') {
-		const newRoomId = nanoid();
-		throw redirect(307, `/playGame/lobby/${newRoomId}`);
+		const mysteryPactLobby = await prisma.mysteryPactLobby.create({
+			data: {
+				maxPlayers: 8,
+				name: 'Mystery Pact Lobby',
+				players: {
+					connect: {
+						id: hybridCtx.sessionUser.userId
+					}
+				}
+			}
+		});
+		throw redirect(307, `/playGame/lobby/${mysteryPactLobby.id}`);
+	} else {
+		const lobby = await prisma.mysteryPactLobby.findUnique({
+			where: {
+				id: roomId
+			}
+		});
+
+		if (!lobby) {
+			throw redirect(307, `/playGame`);
+		}
 	}
 
-	const mysteryPactLobby = await prisma.mysteryPactLobby.upsert({
+	const mysteryPactLobby = await prisma.mysteryPactLobby.update({
 		where: {
 			id: roomId
 		},
-		create: {
-			id: roomId,
-			maxPlayers: 8,
-			name: 'Mystery Pact Lobby',
-			players: {
-				connect: {
-					id: hybridCtx.sessionUser.userId
-				}
-			}
-		},
-		update: {
+		data: {
 			players: {
 				connect: {
 					id: hybridCtx.sessionUser.userId
